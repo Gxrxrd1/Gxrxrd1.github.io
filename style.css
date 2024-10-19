@@ -1,0 +1,229 @@
+/* Estilos para la página romántica */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #000000, #1c1c1c, #2f2f2f);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #e0c3fc, #8ec5fc); /* Degradado claro que combina con el morado */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradienteAnimacion 3s ease-in-out infinite, brillo 2s ease-in-out infinite; /* Animación del degradado y brillo */
+}
+
+/* Animación de gradiente en el texto */
+@keyframes gradienteAnimacion {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes brillo {
+    0% {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(237, 150, 222, 0.8), 0 0 20px rgba(237, 150, 222, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(237, 150, 222, 1), 0 0 40px rgba(237, 150, 222, 1), 0 0 50px rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(237, 150, 222, 0.8), 0 0 20px rgba(237, 150, 222, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Botón brillante con animación y degradado morado vivo */
+button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #8e44ad, #9b59b6); /* Degradado morado vivo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(142, 68, 173, 0.6); /* Sombra morada */
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease; /* Transición suave */
+    animation: brilloBoton 1s infinite; /* Animación de brillo del botón */
+}
+
+@keyframes brilloBoton {
+    0% {
+        box-shadow: 0 0 20px rgba(142, 68, 173, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 1);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(142, 68, 173, 0.6);
+    }
+}
+
+button:hover {
+    background-color: #a29bfe; /* Efecto hover con color morado brillante */
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent);
+    animation: shine 2s infinite;
+}
+
+/* Mensaje sorpresa */
+#mensajeSorpresa {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #e0c3fc, #8ec5fc); /* Degradado claro que combina con el morado */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradienteAnimacion 3s ease-in-out infinite, brillo 2s ease-in-out infinite; /* Animación del degradado y brillo */
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards, slideIn 1s ease-in-out forwards, gradienteAnimacion 5s infinite;
+}
+
+/* Nombre con animación de aparición */
+.nombre {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #e0c3fc, #8ec5fc); /* Degradado claro que combina con el morado */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradienteAnimacion 3s ease-in-out infinite, brillo 2s ease-in-out infinite;
+    margin-top: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    animation: fadeIn 2s ease-in-out forwards, slideIn 2s ease-in-out forwards, gradienteAnimacion 5s infinite, brillo 2s infinite;
+}
+
+.nombre.oculta {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.nombre:not(.oculta) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ocultar el mensaje y el nombre al principio */
+.oculto {
+    display: none;
+}
+
+/* Corazones cayendo */
+#contenedorCorazones {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* No permitir interacción con el contenedor de corazones */
+    overflow: hidden;
+}
+
+.corazon {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff80ab; /* Corazones de un rosa/morado brillante */
+    transform: rotate(-45deg);
+    animation: caer 1s linear infinite;
+    cursor: grab; /* Cursor para indicar que se puede arrastrar */
+    z-index: 2; /* Asegura que los corazones estén por encima de otros elementos */
+    pointer-events: auto; /* Permitir interacción con los corazones */
+}
+
+/* Crear la forma de corazón */
+.corazon::before,
+.corazon::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff80ab; /* Corazones rosa/morado brillante */
+    border-radius: 50%;
+}
+
+.corazon::before {
+    top: -25px;
+    left: 0;
+}
+
+.corazon::after {
+    left: 25px;
+    top: 0;
+}
+
+@keyframes caer {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+/* Efecto de palpitar */
+@keyframes palpitar {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* Aumenta un poco el tamaño */
+    }
+}
+
+/* Estilo de la foto */
+#fotoNovia {
+    max-width: 200px; /* Ajusta el tamaño máximo de la imagen */
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Efecto de aparición */
+}
+
+/* Para mostrar la imagen */
+#fotoNovia:not(.oculta) {
+    opacity: 1; /* Hace que la imagen aparezca */
+    animation: palpitar 1s infinite; /* Aplica la animación de palpitar */
+}
+#videoContainer {
+    position: absolute; /* Cambia la posición a absoluta */
+    top: 15%; /* Ajusta la posición vertical según lo necesites */
+    left: 1%; /* Ajusta la posición horizontal según lo necesites */
+    z-index: 0; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.container {
+    position: relative; /* Asegura que el contenedor principal sea relativo para que los elementos absolutos se posicionen correctamente */
+}
+
+#videoContainer iframe {
+    max-width: 90%; /* Para que sea responsivo */
+    height: auto; /* Mantener la proporción */
+}
+.oculto {
+    display: none;
+}
+
+

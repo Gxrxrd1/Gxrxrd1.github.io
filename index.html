@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" initial-scale="1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Para Ti</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+ /* Diseño de la carta */
+        /* Diseño de la carta */
+        #carta {
+            display: none; /* Ocultar inicialmente */
+            position: fixed;
+            left: 10px; /* Posicionada en la parte lateral izquierda */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 150px;
+            background-color: transparent; /* Sin fondo */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+            z-index: 9;
+        }
+
+        /* Icono cerrado de la carta */
+        #carta:before {
+            content: "📩";
+            font-size: 60px;
+            display: block;
+            text-align: center;
+            padding-top: 30px;
+        }
+
+        /* Diseño del mensaje al abrir la carta */
+        #mensajeCarta {
+            display: none; /* Oculto inicialmente */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        #mensajeCarta h2 {
+            margin-bottom: 20px;
+        }
+
+        #mensajeCarta button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #opcionSi {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #opcionNo {
+            background-color: #f44336;
+            color: white;
+            position: relative;
+            transition: transform 0.2s; /* Añadir una transición suave */
+        }
+        /* Estilos para el cuadro */
+        #cuadroFormal {
+            display: none; /* Oculto por defecto */
+            position: relative;
+            background-color: white;
+            padding: 20px;
+            border: 2px solid #d4af37; /* Borde dorado */
+            border-radius: 10px; /* Bordes redondeados */
+            width: 30%;
+            margin: 20px auto;
+            text-align: center;
+            animation: brillar 2s infinite alternate; /* Animación de brillo */
+        }
+
+        /* Animación para hacer que el borde brille */
+        @keyframes brillar {
+            from {
+                box-shadow: 0 0 1px #d4af37, 0 0 1px #d4af37, 0 0 10px #d4af37, 0 0 40px #d4af37;
+            }
+            to {
+                box-shadow: 0 0 20px #ffdb58, 0 0 30px #ffdb58, 0 0 40px #ffdb58, 0 0 50px #ffdb58;
+            }
+        }
+
+        #cuadroFormal img {
+            max-width: 80%; /* Ajusta el tamaño de la imagen */
+            border-radius: 10px; /* Bordes redondeados para la imagen */
+            margin-top: 10px;
+        }
+
+        #cuadroFormal h2 {
+            font-size: 24px;
+            color: #d46f4d; /* Color para resaltar el texto */
+            margin-bottom: 15px;
+        }
+
+        /* Estilos del mensaje en la foto */
+        #mensajeFoto {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #333;
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Efecto de caída del mensaje */
+        .caida {
+            animation: caer 5s forwards;
+        }
+
+        @keyframes caer {
+            from {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Corazones animados */
+        .corazon {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('ruta-a-tu-imagen-de-corazon.png');
+            background-size: cover;
+            left: 0;
+            animation: caerCorazon 15s forwards;
+        }
+
+        @keyframes caerCorazon {
+            from {
+                top: 0;
+                opacity: 1;
+            }
+            to {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Bienvenida hermosa💖!</h1>
+        <button id="ingresarBtn">Ingresar</button>
+        <p id="mensajeSorpresa" class="oculto">Eres hermosa 😍</p>
+        
+        <!-- El cuadro formal donde se mostrará el nombre y la imagen -->
+        <div id="cuadroFormal">
+            <h2 id="nombreNovia" class="nombre">Estas hermosa Aldana 💖</h2>
+            <img id="fotoNovia" src="img/Ald.jpg" alt="Foto de mi novia" />
+        </div>
+    </div>
+
+    <div id="contenedorCorazones"></div>
+    
+    <div id="videoContainer" class="oculto">
+        <iframe id="youtubeVideo" width="400" height="600" src="https://www.youtube.com/embed/1QkF7qdWl00?autoplay=1" frameborder="0" allowfullscreen></iframe>
+    </div>
+        <!-- Carta en la parte lateral izquierda -->
+        <div id="carta"></div>
+
+        <!-- Mensaje emergente al hacer clic en la carta -->
+        <div id="mensajeCarta">
+            <h2>¿SOY TU HOMBRE?</h2>
+            <button id="opcionSi">Sí</button>
+            <button id="opcionNo">No</button>
+        </div>
+
+    <script>
+        const button = document.getElementById('ingresarBtn');
+        const mensaje = document.getElementById('mensajeSorpresa');
+        const nombre = document.getElementById('nombreNovia');
+        const foto = document.getElementById('fotoNovia');
+        const cuadroFormal = document.getElementById('cuadroFormal');
+        const contenedorCorazones = document.getElementById('contenedorCorazones');
+        const carta = document.getElementById('carta');
+        const mensajeCarta = document.getElementById('mensajeCarta');
+        const opcionSi = document.getElementById('opcionSi');
+        const opcionNo = document.getElementById('opcionNo');
+
+        const mensajes = [
+            '¡Eres la mejor, Aldana! 💖',
+            'Siempre brillas, hermosa! ✨',
+            'Tu sonrisa ilumina mi día! 😊',
+            'Aldana la niña de ojos bellos 🥰'
+        ];
+    
+        button.addEventListener('click', () => {
+            mensaje.classList.remove('oculto');
+            button.style.display = 'none';
+    
+            // Mostrar el cuadro formal con el nombre y la imagen
+            setTimeout(() => {
+                cuadroFormal.style.display = 'block'; // Mostrar el cuadro
+                videoContainer.classList.remove('oculto'); // Mostrar el contenedor del video
+                carta.style.display = 'block'; // Mostrar la carta al hacer clic en "Ingresar"
+            }, 1000);
+
+                    // Evento para mostrar la carta
+        carta.addEventListener('click', () => {
+            carta.style.display = 'none'; // Oculta la carta
+            mensajeCarta.style.display = 'block'; // Muestra el mensaje
+        });
+
+        // Evento para elegir opción "Sí"
+        opcionSi.addEventListener('click', () => {
+            alert('¡QUE EMOCIÓN! YA LO SABIA 🥰💖');
+        });
+
+          // Evento para elegir opción "No"
+          opcionNo.addEventListener('mouseenter', () => {
+            // Mover la opción "No" aleatoriamente
+            const randomX = Math.random() * 80 - 50; // Valor aleatorio entre -50 y 50
+            const randomY = Math.random() * 80 - 50; // Valor aleatorio entre -50 y 50
+            opcionNo.style.transform = `translate(${randomX}vw, ${randomY}vh)`;
+        });
+
+        opcionNo.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevenir el clic en la opción "No"
+        });
+            // Generar corazones cayendo
+            generarCorazones();
+        });
+
+        foto.addEventListener('click', () => {
+            const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+            const nuevoMensaje = document.createElement('div');
+            nuevoMensaje.textContent = mensajeAleatorio;
+            nuevoMensaje.id = 'mensajeFoto';
+            nuevoMensaje.classList.add('caida');
+            document.body.appendChild(nuevoMensaje);
+            nuevoMensaje.style.position = 'absolute';
+            nuevoMensaje.style.left = Math.random() * 100 + 'vw';
+            nuevoMensaje.style.top = '0';
+            setTimeout(() => {
+                nuevoMensaje.remove();
+            }, 5000);
+        });
+    
+        function generarCorazones() {
+            const intervalo = setInterval(() => {
+                const corazon = document.createElement('div');
+                corazon.classList.add('corazon');
+                corazon.style.left = Math.random() * 100 + 'vw';
+                corazon.style.animationDuration = Math.random() * 2 + 3 + 's';
+                corazon.addEventListener('mousedown', iniciarArrastre);
+                contenedorCorazones.appendChild(corazon);
+                setTimeout(() => {
+                    corazon.remove();
+                }, 5000);
+            }, 300);
+            setTimeout(() => {
+                clearInterval(intervalo);
+            }, 10000);
+        }
+
+        function iniciarArrastre(event) {
+            const corazon = event.target;
+            corazon.style.animation = 'none';
+            const offsetX = event.clientX - corazon.getBoundingClientRect().left;
+            const offsetY = event.clientY - corazon.getBoundingClientRect().top;
+
+            function moverCorazon(mouseEvent) {
+                corazon.style.left = (mouseEvent.clientX - offsetX) + 'px';
+                corazon.style.top = (mouseEvent.clientY - offsetY) + 'px';
+            }
+
+            function soltarCorazon() {
+                corazon.style.animation = '';
+                document.removeEventListener('mousemove', moverCorazon);
+                document.removeEventListener('mouseup', soltarCorazon);
+            }
+
+            document.addEventListener('mousemove', moverCorazon);
+            document.addEventListener('mouseup', soltarCorazon);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
